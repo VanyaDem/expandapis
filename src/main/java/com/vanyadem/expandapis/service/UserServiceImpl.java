@@ -1,6 +1,7 @@
 package com.vanyadem.expandapis.service;
 
 import com.vanyadem.expandapis.dao.UserRepository;
+import com.vanyadem.expandapis.dto.UserDto;
 import com.vanyadem.expandapis.entity.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -25,5 +26,12 @@ public class UserServiceImpl implements UserService{
             user.getPassword(),
                 new ArrayList<>()
         );
+    }
+    @Override
+    public User addUser(UserDto userDto){
+        User user = new User();
+        user.setUsername(userDto.getUsername());
+        user.setPassword(userDto.getPassword());
+        return userRepository.save(user);
     }
 }
