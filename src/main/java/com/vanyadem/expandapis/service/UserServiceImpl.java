@@ -27,6 +27,7 @@ public class UserServiceImpl implements UserService{
                 new ArrayList<>()
         );
     }
+
     @Override
     public User addUser(UserDto userDto){
         User user = new User();
