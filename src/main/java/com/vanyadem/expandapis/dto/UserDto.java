@@ -3,7 +3,7 @@ package com.vanyadem.expandapis.dto;
 import lombok.Data;
 
 @Data
-public class RequestUserDto {
+public class UserDto {
 
     private String username;
 
