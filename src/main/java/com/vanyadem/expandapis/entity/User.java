@@ -1,11 +1,13 @@
 package com.vanyadem.expandapis.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.Objects;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 @NoArgsConstructor
 @Table(name = "users")
 public class User {
@@ -21,27 +23,6 @@ public class User {
     @Column(name = "password",nullable = false)
     private String password;
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -49,16 +30,14 @@ public class User {
 
         User user = (User) o;
 
-        if (!Objects.equals(id, user.id)) return false;
-        if (!Objects.equals(username, user.username)) return false;
-        return Objects.equals(password, user.password);
+        if (!username.equals(user.username)) return false;
+        return password.equals(user.password);
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (username != null ? username.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
+        int result = username.hashCode();
+        result = 31 * result + password.hashCode();
         return result;
     }
 }
