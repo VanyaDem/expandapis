@@ -17,7 +17,7 @@ public class TableController {
     private final DynamicTableService dynamicTableService;
 
     @PostMapping("/add")
-    public ResponseEntity<?> addTable(@RequestBody Map<String, Object> jsonData){
+    public ResponseEntity<?> addTable(@RequestBody Map<String, Object> jsonData) {
         JSONObject jsonObject = new JSONObject(jsonData);
 
         dynamicTableService.createTableFromJson(jsonObject);
