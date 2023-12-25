@@ -1,14 +1,16 @@
 package com.vanyadem.expandapis.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vanyadem.expandapis.exceptions.SuchTableExistException;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLSyntaxErrorException;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -17,8 +19,6 @@ public class DynamicTableService {
     private final JdbcTemplate jdbcTemplate;
 
     public void createTableFromJson(JSONObject jsonData){
-
-
 
         String tableName = jsonData.getString("table");
         JSONArray recordsArray = jsonData.getJSONArray("records");
@@ -49,7 +49,7 @@ public class DynamicTableService {
             queryBuilder.append("INSERT INTO ").append(tableName).append(" (");
 
             record.keySet().forEach(column -> queryBuilder.append(column).append(", "));
-            queryBuilder.delete(queryBuilder.length() - 2, queryBuilder.length()); // Видалення останньої коми
+            queryBuilder.delete(queryBuilder.length() - 2, queryBuilder.length());
 
             queryBuilder.append(") VALUES (");
 
@@ -57,11 +57,19 @@ public class DynamicTableService {
                 String value = record.getString(column);
                 queryBuilder.append("'").append(value).append("', ");
             });
-            queryBuilder.delete(queryBuilder.length() - 2, queryBuilder.length()); // Видалення останньої коми
+            queryBuilder.delete(queryBuilder.length() - 2, queryBuilder.length());
 
             queryBuilder.append(")");
 
             jdbcTemplate.execute(queryBuilder.toString());        }
+    }
+
+    public String getAll() throws JsonProcessingException {
+        String query = "SELECT * FROM products";
+        List<Map<String, Object>> products = jdbcTemplate.queryForList(query);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.writeValueAsString(products);
     }
 
     private void tableValidation(String tableName) {
