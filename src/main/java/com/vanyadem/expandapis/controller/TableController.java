@@ -1,13 +1,11 @@
 package com.vanyadem.expandapis.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.vanyadem.expandapis.service.DynamicTableService;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -25,5 +23,11 @@ public class TableController {
         dynamicTableService.createTableFromJson(jsonObject);
         dynamicTableService.insertDataIntoTable(jsonObject);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<String> getAllRowsByTableName() throws JsonProcessingException {
+        String response = dynamicTableService.getAll();
+        return ResponseEntity.ok(response);
     }
 }
