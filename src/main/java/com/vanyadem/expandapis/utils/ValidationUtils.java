@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -22,9 +23,10 @@ public class ValidationUtils {
                 String resultValidate = result
                         .stream()
                         .map(ConstraintViolation::getMessage)
-                        .reduce((s1, s2) -> s1 + ". " + s2)
-                        .orElse("");
-                throw new ValidationException(String.format("Request is not valid , %s" , resultValidate));
+                        .collect(Collectors.joining(", "));
+//                        .reduce((s1, s2) -> s1 + ", " + s2)
+//                        .orElse("");
+                throw new ValidationException(String.format("Request is not valid, %s" , resultValidate));
             }
         }
     }
