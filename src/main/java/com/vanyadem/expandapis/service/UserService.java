@@ -6,6 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {
 
-    public User addUser(UserDto userDto);
+    User addUser(UserDto userDto);
+
+    org.springframework.security.core.userdetails.User convertToUserDetails(User user);
 
 }
