@@ -12,10 +12,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/user")
 public class UserController {
 
     private final UserService userService;
@@ -24,13 +26,13 @@ public class UserController {
 
     private final JwtTokenUtils jwtTokenUtils;
 
-    @PostMapping("/user/add")
+    @PostMapping("/add")
     public ResponseEntity<?> addUser(@RequestBody UserDto userDto){
         userService.addUser(userDto);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/user/authenticate")
+    @PostMapping("/authenticate")
     public ResponseEntity<JwtResponse> authenticateUser(@RequestBody UserDto userDto){
         authenticate(userDto);
 
