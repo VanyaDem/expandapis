@@ -48,7 +48,7 @@ public class JwtTokenUtils {
      * @author Vanya Demydenko
      */
     public String getUsername(String token) {
-        return getAllClaimsFromToken(token).get("username", String.class);
+        return getAllClaimsFromToken(token).getSubject();
     }
 
     /**
