@@ -65,8 +65,8 @@ public class DynamicTableServiceImpl implements DynamicTableService {
         }
     }
 
-    public String getAll() {
-        String query = "SELECT * FROM products";
+    public String getAll(String tableName) {
+        String query = String.format("SELECT * FROM %s", tableName);
         List<Map<String, Object>> products = jdbcTemplate.queryForList(query);
 
         ObjectMapper objectMapper = new ObjectMapper();

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.vanyadem.expandapis.service.DynamicTableService;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,12 +23,12 @@ public class TableController {
 
         dynamicTableService.createTableFromJson(jsonObject);
         dynamicTableService.insertDataIntoTable(jsonObject);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/all")
     public ResponseEntity<String> getAllRowsByTableName() throws JsonProcessingException {
-        String response = dynamicTableService.getAll();
+        String response = dynamicTableService.getAll("products");
         return ResponseEntity.ok(response);
     }
 }

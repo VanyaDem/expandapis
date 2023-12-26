@@ -8,5 +8,5 @@ public interface DynamicTableService {
 
     void insertDataIntoTable(JSONObject jsonData);
 
-    String getAll();
+    String getAll(String tableName);
 }
