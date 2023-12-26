@@ -55,13 +55,6 @@ public class UserServiceImpl implements UserService{
         return user;
     }
 
-    /**
-     * Converts a User object to a Spring Security UserDetails object.
-     *
-     * @param user The {@link User} object to be converted to UserDetails.
-     * @return A {@link org.springframework.security.core.userdetails.User} object representing the user.
-     * @author Vanya Demydenko
-     */
     public org.springframework.security.core.userdetails.User convertToUserDetails(User user) {
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
