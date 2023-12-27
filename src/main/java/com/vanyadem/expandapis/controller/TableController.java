@@ -1,6 +1,5 @@
 package com.vanyadem.expandapis.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.vanyadem.expandapis.dto.TableRequest;
 import com.vanyadem.expandapis.service.DynamicTableService;
 import lombok.RequiredArgsConstructor;

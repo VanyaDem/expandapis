@@ -9,3 +9,82 @@ to industry standards. The implemented features underscore my proficiency in lev
 complex challenges effectively.
 
 I welcome feedback and suggestions for further enhancements or improvements. Thank you for reviewing my submission.
+
+# API Documentation
+
+## /user/add (POST)
+- **Description:** Registers a new user based on provided data in the request body.
+- **Request body:**
+  ```json
+  {
+    "username": "any username",
+    "password" : "any password"
+  }
+
+- **Response**
+  - **Code 201** upon successful user creation.
+  - **Code 400** for incorrect or conflicting data.
+
+## /user/authenticate  (POST)
+
+- **Description:** Authenticates the user and returns an access token.
+- **Request body:**
+  ```json
+  {
+    "username": "any username",
+    "password": "any password"
+  }
+
+- **Response**
+    ```json
+    {
+      "token": "some.JWT"
+    }
+
+- **Code 201** along with an access token upon successful authentication.
+- **Code 400** for incorrect or conflicting data.
+
+## /products/add (POST)
+- **Description:** Creates a table with records in the database.
+- **Request body:**
+  ```json
+  {
+  "table" : "table name",
+  "records" : [
+    {
+      "columnName" : "value",
+      "columnName" : "value"
+    },
+    {
+      "columnName" : "value",
+      "columnName" : "value"
+    }
+  ]
+  }
+
+- **Response**
+    - **Code 201** upon successful table creation with corresponding columns.
+    - **Code 401**  for expired token or unauthorized access.
+    - **Code 400**  if the token was corrupted or different columns in the records
+
+## /user/all/{tableName} (GET)
+- **Description:** Return records from the specified table in JSON format.
+
+- **Response**
+
+   ```json
+  [
+    {
+      "columnName" : "value",
+      "columnName" : "value"
+    },
+    {
+      "columnName" : "value",
+      "columnName" : "value"
+    }
+  ]
+
+- **Code 201** upon successful user creation.
+- **Code 401**  for expired token or unauthorized access.
+- **Code 400**  if the token was corrupted or different columns in the records
+
