@@ -1,7 +1,6 @@
 package com.vanyadem.expandapis.service;
 
 import com.vanyadem.expandapis.dto.TableRequest;
-import org.json.JSONObject;
 
 public interface DynamicTableService {
 

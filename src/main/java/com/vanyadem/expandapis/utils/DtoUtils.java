@@ -14,7 +14,7 @@ public class DtoUtils {
      * @param userDto UserDto object to convert
      * @return User object obtained from UserDto
      */
-    public static User dtoToUser(UserDto userDto){
+    public static User dtoToUser(UserDto userDto) {
         User user = new User();
         user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());

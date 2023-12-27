@@ -72,7 +72,7 @@ public class JwtTokenUtils {
     /**
      * Builds a JWT token with the provided subject, claims, issued date, and expiration date.
      */
-    private String buildJwt(String subject , Date issuedDate, Date expiredDate) {
+    private String buildJwt(String subject, Date issuedDate, Date expiredDate) {
         return Jwts.builder()
                 .subject(subject)
                 .issuedAt(issuedDate)

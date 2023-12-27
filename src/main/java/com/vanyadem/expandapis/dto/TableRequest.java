@@ -10,5 +10,5 @@ public class TableRequest {
 
     private String table;
 
-    private List<Map<String,String>> records;
+    private List<Map<String, String>> records;
 }

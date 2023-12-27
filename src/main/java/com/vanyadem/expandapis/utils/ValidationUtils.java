@@ -27,17 +27,17 @@ public class ValidationUtils {
      * @param request Request object to be validated
      * @throws ValidationException if the request object fails validation, containing error messages
      */
-    public <T> void validationRequest(T request){
-        if(request != null){
+    public <T> void validationRequest(T request) {
+        if (request != null) {
             Set<ConstraintViolation<T>> result = validator.validate(request);
-            if(!result.isEmpty()){
+            if (!result.isEmpty()) {
                 String resultValidate = result
                         .stream()
                         .map(ConstraintViolation::getMessage)
                         .collect(Collectors.joining(", "));
 //                        .reduce((s1, s2) -> s1 + ", " + s2)
 //                        .orElse("");
-                throw new ValidationException(String.format("Request is not valid, %s" , resultValidate));
+                throw new ValidationException(String.format("Request is not valid, %s", resultValidate));
             }
         }
     }

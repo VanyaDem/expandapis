@@ -29,7 +29,6 @@ public class DynamicTableServiceImpl implements DynamicTableService {
     }
 
 
-
     @Override
     public void insertDataIntoTable(TableRequest tableRequest) {
         String tableName = tableRequest.getTable();
@@ -101,7 +100,7 @@ public class DynamicTableServiceImpl implements DynamicTableService {
         }
     }
 
-    private void appendColumnWithType(String column,  StringBuilder builder){
+    private void appendColumnWithType(String column, StringBuilder builder) {
         builder.append(column).append(" VARCHAR (255), ");
     }
 

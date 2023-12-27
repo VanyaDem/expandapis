@@ -18,7 +18,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
@@ -31,14 +31,14 @@ public class UserServiceImpl implements UserService{
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByName(username).orElseThrow();
         return new org.springframework.security.core.userdetails.User(
-            user.getUsername(),
-            user.getPassword(),
+                user.getUsername(),
+                user.getPassword(),
                 List.of()
         );
     }
 
     @Override
-    public User addUser(UserDto userDto){
+    public User addUser(UserDto userDto) {
         validationUtils.validationRequest(userDto);
         User user = new User();
 
@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService{
             user.setPassword(passwordEncoder.encode(userDto.getPassword()));
             user = userRepository.save(user);
 
-        }catch (DataIntegrityViolationException exception ){
+        } catch (DataIntegrityViolationException exception) {
             throw new SuchUserExistException(String
                     .format("User with name '%s' already exist!", userDto.getUsername()));
         }
