@@ -2,10 +2,9 @@ package com.vanyadem.expandapis.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vanyadem.expandapis.dto.TableRequest;
 import com.vanyadem.expandapis.exceptions.SuchTableExistException;
 import lombok.RequiredArgsConstructor;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -18,51 +17,26 @@ public class DynamicTableServiceImpl implements DynamicTableService {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public void createTableFromJson(JSONObject jsonData) {
+    @Override
+    public void createTableFromJson(TableRequest tableRequest) {
+        String table = tableRequest.getTable();
 
-        String tableName = jsonData.getString("table");
-        JSONArray recordsArray = jsonData.getJSONArray("records");
+        tableValidation(table);
 
-        tableValidation(tableName);
-
-        StringBuilder query = new StringBuilder();
-        query.append("CREATE TABLE ").append(tableName).append(" (");
-
-        JSONObject record = recordsArray.getJSONObject(0);
-        record.keySet().forEach(column -> {
-            query.append(column).append(" VARCHAR (255), ");
-        });
-
-        query.delete(query.length() - 2, query.length());
-        query.append(")");
+        StringBuilder query = buildQueryForTableCreating(tableRequest, table);
 
         jdbcTemplate.execute(query.toString());
     }
 
-    public void insertDataIntoTable(JSONObject jsonData) {
-        String tableName = jsonData.getString("table");
-        JSONArray recordsArray = jsonData.getJSONArray("records");
 
-        for (int i = 0; i < recordsArray.length(); i++) {
-            JSONObject record = recordsArray.getJSONObject(i);
-            StringBuilder queryBuilder = new StringBuilder();
-            queryBuilder.append("INSERT INTO ").append(tableName).append(" (");
 
-            record.keySet().forEach(column -> queryBuilder.append(column).append(", "));
-            queryBuilder.delete(queryBuilder.length() - 2, queryBuilder.length());
+    @Override
+    public void insertDataIntoTable(TableRequest tableRequest) {
+        String tableName = tableRequest.getTable();
 
-            queryBuilder.append(") VALUES (");
-
-            record.keySet().forEach(column -> {
-                String value = record.getString(column);
-                queryBuilder.append("'").append(value).append("', ");
-            });
-            queryBuilder.delete(queryBuilder.length() - 2, queryBuilder.length());
-
-            queryBuilder.append(")");
-
-            jdbcTemplate.execute(queryBuilder.toString());
-        }
+        tableRequest
+                .getRecords()
+                .forEach(record -> executeInsertQuery(tableName, record));
     }
 
     public String getAll(String tableName) {
@@ -77,12 +51,58 @@ public class DynamicTableServiceImpl implements DynamicTableService {
         }
     }
 
+
+    private StringBuilder buildQueryForTableCreating(TableRequest tableRequest, String table) {
+        StringBuilder query = new StringBuilder();
+        query.append("CREATE TABLE ").append(table).append(" (");
+
+        tableRequest
+                .getRecords()
+                .get(0)
+                .keySet()
+                .forEach(column -> appendColumnWithType(column, query));
+
+        query.delete(query.length() - 2, query.length());
+        query.append(")");
+        return query;
+    }
+
+    private static StringBuilder buildQueryForTableInserting(String tableName, Map<String, String> record) {
+        StringBuilder queryBuilder = new StringBuilder();
+        queryBuilder.append("INSERT INTO ").append(tableName).append(" (");
+
+        record.keySet().forEach(column -> queryBuilder.append(column).append(", "));
+        queryBuilder.delete(queryBuilder.length() - 2, queryBuilder.length());
+
+        queryBuilder.append(") VALUES (");
+
+        record.keySet().forEach(column -> {
+            String value = record.get(column);
+            queryBuilder.append("'").append(value).append("', ");
+        });
+
+        queryBuilder.delete(queryBuilder.length() - 2, queryBuilder.length());
+
+        queryBuilder.append(")");
+        return queryBuilder;
+    }
+
+    private void executeInsertQuery(String tableName, Map<String, String> record) {
+        StringBuilder queryBuilder = buildQueryForTableInserting(tableName, record);
+
+        jdbcTemplate.execute(queryBuilder.toString());
+    }
+
     private void tableValidation(String tableName) {
         String sql = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ?";
         int count = jdbcTemplate.queryForObject(sql, Integer.class, tableName);
         if (count > 0) {
             throw new SuchTableExistException(String.format("Table '%s' already exist", tableName));
         }
+    }
+
+    private void appendColumnWithType(String column,  StringBuilder builder){
+        builder.append(column).append(" VARCHAR (255), ");
     }
 
 }

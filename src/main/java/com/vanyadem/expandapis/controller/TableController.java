@@ -1,6 +1,7 @@
 package com.vanyadem.expandapis.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.vanyadem.expandapis.dto.TableRequest;
 import com.vanyadem.expandapis.service.DynamicTableService;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
@@ -18,11 +19,11 @@ public class TableController {
     private final DynamicTableService dynamicTableService;
 
     @PostMapping("/add")
-    public ResponseEntity<?> addTable(@RequestBody Map<String, Object> jsonData) {
-        JSONObject jsonObject = new JSONObject(jsonData);
+    public ResponseEntity<?> addTable(@RequestBody TableRequest tableRequest) {
+//        JSONObject jsonObject = new JSONObject(jsonData);
 
-        dynamicTableService.createTableFromJson(jsonObject);
-        dynamicTableService.insertDataIntoTable(jsonObject);
+        dynamicTableService.createTableFromJson(tableRequest);
+        dynamicTableService.insertDataIntoTable(tableRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
