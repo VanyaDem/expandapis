@@ -17,16 +17,16 @@ public class TableController {
 
     @PostMapping("/add")
     public ResponseEntity<?> addTable(@RequestBody TableRequest tableRequest) {
-//        JSONObject jsonObject = new JSONObject(jsonData);
-
         dynamicTableService.createTableFromJson(tableRequest);
         dynamicTableService.insertDataIntoTable(tableRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<String> getAllRowsByTableName() throws JsonProcessingException {
-        String response = dynamicTableService.getAll("products");
+    @GetMapping("/all/{tableName}")
+    public ResponseEntity<String> getAllRowsByTableName(
+            @PathVariable(name = "tableName") String tableName) {
+
+        String response = dynamicTableService.getAll(tableName);
         return ResponseEntity.ok(response);
     }
 }

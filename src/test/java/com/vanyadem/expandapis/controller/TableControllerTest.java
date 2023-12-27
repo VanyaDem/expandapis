@@ -155,7 +155,7 @@ class TableControllerTest {
     @Transactional
     @Rollback
     public void getAllRowsByTableNameShouldReturn401StatusIfUserUnauthorized() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/products/all"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/products/all/products"))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized());
     }
 
@@ -168,7 +168,7 @@ class TableControllerTest {
                 .header("Authorization", "Bearer " + token)
                 .content(json));
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/products/all")
+        mockMvc.perform(MockMvcRequestBuilders.get("/products/all/products")
                     .header("Authorization", "Bearer " + token))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }

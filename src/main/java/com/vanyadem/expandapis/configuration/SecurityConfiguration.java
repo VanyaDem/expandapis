@@ -37,7 +37,7 @@ public class SecurityConfiguration {
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/products/add").authenticated()
-                        .requestMatchers("/products/all").authenticated()
+                        .requestMatchers("/products/all/*").authenticated()
                         .anyRequest().permitAll())
                 .sessionManagement(management -> management
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
