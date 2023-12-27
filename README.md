@@ -1,5 +1,5 @@
 # ExpandAPIs Task Submission
-___
+
 This repository contains my submission for the ExpandAPIs task. 
 I've diligently implemented the specified requirements and functionalities outlined in the task description.
 The codebase reflects my understanding and application of best practices in software development.
