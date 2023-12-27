@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>ExpandAPIs Task Submission</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      margin: 20px;
-      max-width: 800px;
-    }
-    h1 {
-      color: #333;
-    }
-    p {
-      color: #666;
-    }
-  </style>
-</head>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>ExpandAPIs Task Submission</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+        max-width: 800px;
+      }
+      h1 {
+        color: #333;
+      }
+      p {
+        color: #666;
+      }
+    </style>
+  </head>
 <body>
   <h1>ExpandAPIs Task Submission</h1>
   <p>
@@ -36,4 +36,4 @@
     Thank you for reviewing my submission.
   </p>
 </body>
-</html>
+
