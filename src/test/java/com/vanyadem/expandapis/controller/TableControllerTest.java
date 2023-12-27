@@ -1,6 +1,5 @@
 package com.vanyadem.expandapis.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vanyadem.expandapis.entity.User;
 import com.vanyadem.expandapis.service.UserService;
 import com.vanyadem.expandapis.utils.JwtTokenUtils;
@@ -29,9 +28,6 @@ class TableControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Autowired
     private EntityManager entityManager;
@@ -105,6 +101,29 @@ class TableControllerTest {
     @Test
     @Transactional
     @Rollback
+    public void addTableShouldReturn400StatusIfTokenIsCorrupted() throws Exception {
+        token = token + "fjh";
+        mockMvc.perform(MockMvcRequestBuilders.post("/products/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + token)
+                        .content(json))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+    @Test
+    @Transactional
+    @Rollback
+    public void addTableShouldReturn401StatusIfTokenIsExpired() throws Exception {
+        token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJxd2VydHkiLCJpYXQiOjE3MDM2ODg2MjcsImV4cCI6MTcwMzY5MjIyN30.kUkXTixQ3f5g9xkGtFTy5xMyT3zNlULe2YwzX3vYzzE";
+        mockMvc.perform(MockMvcRequestBuilders.post("/products/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + token)
+                        .content(json))
+                .andExpect(MockMvcResultMatchers.status().isUnauthorized());
+    }
+
+    @Test
+    @Transactional
+    @Rollback
     public void addTableShouldInsertDataIntoSpecificTable() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.post("/products/add")
@@ -169,7 +188,7 @@ class TableControllerTest {
                 .content(json));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/products/all/products")
-                    .header("Authorization", "Bearer " + token))
+                        .header("Authorization", "Bearer " + token))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
