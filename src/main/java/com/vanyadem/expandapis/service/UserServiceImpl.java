@@ -39,7 +39,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User addUser(UserDto userDto) {
+
         validationUtils.validationRequest(userDto);
+
+        return createUserIfSuchNoExist(userDto);
+    }
+
+
+    public org.springframework.security.core.userdetails.User convertToUserDetails(User user) {
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                List.of(new SimpleGrantedAuthority("USER"))
+
+        );
+    }
+
+    private User createUserIfSuchNoExist(UserDto userDto) {
         User user = new User();
 
         try {
@@ -53,14 +69,5 @@ public class UserServiceImpl implements UserService {
                     .format("User with name '%s' already exist!", userDto.getUsername()));
         }
         return user;
-    }
-
-    public org.springframework.security.core.userdetails.User convertToUserDetails(User user) {
-        return new org.springframework.security.core.userdetails.User(
-                user.getUsername(),
-                user.getPassword(),
-                List.of(new SimpleGrantedAuthority("USER"))
-
-        );
     }
 }
