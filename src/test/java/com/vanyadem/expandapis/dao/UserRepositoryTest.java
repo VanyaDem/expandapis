@@ -27,7 +27,9 @@ class UserRepositoryTest {
         user.setPassword("123");
         entityManager.persist(user);
 
-        User targetUser = userRepository.findByName("Vanya").get();
+        User targetUser = userRepository
+                .findByName("Vanya")
+                .orElse(new User());
 
         Assertions.assertEquals("Vanya", targetUser.getUsername());
     }
