@@ -35,8 +35,6 @@ public class ValidationUtils {
                         .stream()
                         .map(ConstraintViolation::getMessage)
                         .collect(Collectors.joining(", "));
-//                        .reduce((s1, s2) -> s1 + ", " + s2)
-//                        .orElse("");
                 throw new ValidationException(String.format("Request is not valid, %s", resultValidate));
             }
         }
